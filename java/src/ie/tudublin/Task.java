@@ -5,7 +5,7 @@ import processing.data.TableRow;
 public class Task {
     
     //creating private vars
-    private boolean task;
+    private String task;
     private int start;
     private int end;
     
@@ -15,7 +15,8 @@ public class Task {
 
         //constructor chaining -  this is linking constructors together
         // this calls the constructor below 
-        this(row.getInt("Task")==1 ? true : false,
+        this(
+        row.getString("Task"),
         row.getInt("Start"),
         row.getInt("End")
         );
@@ -24,7 +25,7 @@ public class Task {
     }//end constructor
 
     //creating a parameterised constructor
-    public Task(boolean task, int start, int end){
+    public Task(String task, int start, int end){
         this.task = task;
         this.start = start;
         this.end = end;
@@ -34,11 +35,11 @@ public class Task {
 
 
     // ACCESSOR METHODS - getters and setters
-    public boolean getTask() {
+    public String getTask() {
         return task;
     }//end getter
 
-    public void setTask(boolean task) {
+    public void setTask(String task) {
         this.task = task;
     }//end setter
 

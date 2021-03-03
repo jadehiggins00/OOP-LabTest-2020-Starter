@@ -19,20 +19,34 @@ public class Gantt extends PApplet
 
 
 	// drawing vertical lines 
-	public void displayTasks(){
+	public void displayTasks() {
+	
+
 		textAlign(CENTER,CENTER);
 		float border = 0.1f * width;
 		for(int i = 1 ; i <= 30 ; i++){
+			
 
-			float y = map(i, 1, 30, border, width - border); // for y-axis
+			float x = map(i, 1, 30, border, width - border); // for x-axis numbers on top
+			
 			stroke(255);
-			line(y, border, y,  height - border);// y axis
+			line(x, border, x,  height - border);// y axis
 
-			// geting the text to align with bars
+			// getting the text to align with bars at the top of the screen
 			fill(255);
-			text(i,y, border*0.5f);
+			text(i,x, border*0.5f);
+			
 
 		}//end for loop
+
+		for( int j = 0; j < tasks.size(); j++){
+			//creating an object
+			Task t = tasks.get(j);
+			float y = map(t.getTask(),0, 30, border, height - border); // to display text along the side
+			//text aligned at the left
+			text(j, border * 0.5f, y);
+
+		}
 
 	}//endd method
 
