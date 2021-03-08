@@ -12,9 +12,23 @@ public class Gantt extends PApplet
 	//calling an array list to hold the instances of the class
 	ArrayList<Task> tasks = new ArrayList<Task>(); //creating an object
 	
+	//border vars
+	private float leftBorder;
+	private float rightBorder;
+
+	//move box vars
+	int whichTask  = 1; // which task is being clicked
+	boolean isEnd = false;
+
+	public void mousePressed(){
+
+	}
+
+
 	public void settings()
 	{
 		size(800, 600);
+		
 	}
 
 
@@ -23,28 +37,42 @@ public class Gantt extends PApplet
 	
 
 		textAlign(CENTER,CENTER);
-		float border = 0.1f * width;
+		stroke(255);
 		for(int i = 1 ; i <= 30 ; i++){
 			
 
-			float x = map(i, 1, 30, border, width - border); // for x-axis numbers on top
+			float x = map(i, 1, 30, leftBorder, width - rightBorder); // for x-axis numbers on top
 			
-			stroke(255);
-			line(x, border, x,  height - border);// y axis
+			line(x, rightBorder, x,  height - rightBorder);// y axis
 
 			// getting the text to align with bars at the top of the screen
 			fill(255);
-			text(i,x, border*0.5f);
+			text(i,x, rightBorder/2);
 			
 
 		}//end for loop
 
+
+		// getting number of elements in array list
 		for( int j = 0; j < tasks.size(); j++){
+			float y = map(j,0,tasks.size(), rightBorder + 50, height - rightBorder - 50);
 			//creating an object
 			Task t = tasks.get(j);
-			float y = map(t.getTask(),0, 30, border, height - border); // to display text along the side
-			//text aligned at the left
-			text(j, border * 0.5f, y);
+			//calculating start point and end point
+			float x1 = map(t.getStart(),1, 30, leftBorder, width - rightBorder);
+			float x2 = map(t.getEnd(), 1, 30, leftBorder, width - rightBorder);
+
+			
+			// setting a colour
+			int colour = (int)map(j, 0, tasks.size(), 0, 255);
+			noStroke();
+			fill(colour, 255, 255);
+			rect(x1, y - 20, x2 - x1, 40);
+
+			// setting the text at the left side of the screen
+			fill(255);
+			textAlign(LEFT, CENTER);
+			text(t.getTask(), leftBorder /2, y);
 
 		}
 
@@ -54,14 +82,14 @@ public class Gantt extends PApplet
 	public void loadTasks()
 	{
 		
-		//loading the table
+		//loading the table - header to indicaye the first row has the headers of the file
 		Table table = loadTable("tasks.csv", "header");
 		
 		// enhanced for loop - iterating over the table row by row
 		for(TableRow row:table.rows()){
 
 			Task t = new Task(row); //creating object
-			tasks.add(t);
+			tasks.add(t); // adding the tasks to the array list
 
 
 		}//end for 
@@ -75,22 +103,13 @@ public class Gantt extends PApplet
 		}//end for
 	}//end method
 	
-	public void mousePressed()
-	{
-		println("Mouse pressed");	
-	}
-
-	public void mouseDragged()
-	{
-		println("Mouse dragged");
-	}
-
-	
-	
 	public void setup() 
 	{
 		loadTasks();
 		printTasks();
+		leftBorder = width * 0.2f;;
+		rightBorder = width * 0.05f;
+		colorMode(HSB);
 	}
 	
 	public void draw()
