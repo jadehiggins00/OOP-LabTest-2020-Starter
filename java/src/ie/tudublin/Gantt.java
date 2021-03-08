@@ -21,8 +21,8 @@ public class Gantt extends PApplet
 	boolean isEnd = false;
 
 	public void mousePressed(){
-
-	}
+		for(int i=0; i< tasks.size(); 
+	}//end method
 
 
 	public void settings()
